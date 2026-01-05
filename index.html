@@ -490,7 +490,7 @@
             }
         }
         
-        // Parsear CSV a JSON
+        // Parsear CSV a JSON - CORREGIDO: Comienza desde columna G
         function parseCSV(csvText) {
             const rows = csvText.split('\n')
                 .filter(row => row.trim() !== '') // Filtrar filas vacías
@@ -533,26 +533,61 @@
             for (let i = 1; i < rows.length; i++) {
                 const row = rows[i];
                 
-                // Verificar que tenga suficientes columnas
-                if (row.length >= 8) { // Al menos 8 columnas (de G a N)
+                // Verificar que tenga suficientes columnas (al menos hasta la columna R)
+                if (row.length >= 17) { // Necesitamos hasta la columna R (índice 17 en array 0-based)
                     const rowData = {};
                     
-                    // Asignar datos según las columnas de la planilla
-                    // Ajustar índices según la estructura real de tu CSV
-                    rowData.zona = row[0] || ''; // Columna G
-                    rowData.subzona = row[1] || ''; // Columna H
-                    rowData.nombre = row[2] || ''; // Columna I
-                    rowData.domicilio = row[3] || ''; // Columna J
-                    rowData.dni = row[4] || ''; // Columna K
-                    rowData.edad = row[5] || ''; // Columna L
-                    rowData.categoria = row[6] || ''; // Columna M
-                    rowData.ausente = (row[7] || '').toLowerCase(); // Columna N
+                    // CORRECCIÓN: Comenzar desde columna G (índice 6 en array 0-based)
+                    // Columna G (índice 6) -> Zona
+                    // Columna H (índice 7) -> Subzona
+                    // Columna I (índice 8) -> Nombre
+                    // Columna J (índice 9) -> Domicilio
+                    // Columna K (índice 10) -> DNI
+                    // Columna L (índice 11) -> Edad
+                    // Columna M (índice 12) -> Categoría
+                    // Columna N (índice 13) -> Ausentes
+                    // Columnas O, P, Q, R (índices 14, 15, 16, 17) -> Tags
+                    
+                    rowData.zona = row[6] || ''; // Columna G
+                    rowData.subzona = row[7] || ''; // Columna H
+                    rowData.nombre = row[8] || ''; // Columna I
+                    rowData.domicilio = row[9] || ''; // Columna J
+                    rowData.dni = row[10] || ''; // Columna K
+                    rowData.edad = row[11] || ''; // Columna L
+                    rowData.categoria = row[12] || ''; // Columna M
+                    rowData.ausente = (row[13] || '').toLowerCase(); // Columna N
                     
                     // Tags (columnas O, P, Q, R)
                     rowData.tags = [];
-                    for (let j = 8; j < Math.min(12, row.length); j++) {
-                        if (row[j]) {
-                            rowData.tags.push(row[j]);
+                    for (let j = 14; j < Math.min(18, row.length); j++) {
+                        if (row[j] && row[j].trim() !== '') {
+                            rowData.tags.push(row[j].trim());
+                        }
+                    }
+                    
+                    data.push(rowData);
+                } else if (row.length >= 8) {
+                    // Versión alternativa si no hay suficientes columnas
+                    // Asumir que las primeras 6 columnas (A-F) están vacías o no existen
+                    const rowData = {};
+                    
+                    // Ajustar índices si hay menos columnas
+                    const startIndex = Math.max(0, row.length - 12); // Intentar obtener las últimas 12 columnas
+                    
+                    rowData.zona = row[startIndex] || ''; // Columna G
+                    rowData.subzona = row[startIndex + 1] || ''; // Columna H
+                    rowData.nombre = row[startIndex + 2] || ''; // Columna I
+                    rowData.domicilio = row[startIndex + 3] || ''; // Columna J
+                    rowData.dni = row[startIndex + 4] || ''; // Columna K
+                    rowData.edad = row[startIndex + 5] || ''; // Columna L
+                    rowData.categoria = row[startIndex + 6] || ''; // Columna M
+                    rowData.ausente = (row[startIndex + 7] || '').toLowerCase(); // Columna N
+                    
+                    // Tags (columnas O, P, Q, R)
+                    rowData.tags = [];
+                    for (let j = startIndex + 8; j < Math.min(startIndex + 12, row.length); j++) {
+                        if (row[j] && row[j].trim() !== '') {
+                            rowData.tags.push(row[j].trim());
                         }
                     }
                     
@@ -560,6 +595,7 @@
                 }
             }
             
+            console.log("Datos parseados:", data); // Para debugging
             return data;
         }
         
@@ -597,7 +633,9 @@
                                   item.ausente === '1' || 
                                   item.ausente === 'true' ||
                                   item.ausente === 'x' ||
-                                  item.ausente === 'ausente');
+                                  item.ausente === 'ausente' ||
+                                  item.ausente === 'a' ||
+                                  item.ausente.toLowerCase().includes('ausente'));
                 
                 const ausenteClass = esAusente ? 'ausente' : '';
                 const ausenteDisplay = esAusente ? '<span class="ausente-badge">AUSENTE</span>' : '';
@@ -628,6 +666,7 @@
         
         // Escapar HTML para seguridad
         function escapeHtml(text) {
+            if (text === null || text === undefined) return '';
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
@@ -688,7 +727,9 @@
                                       item.ausente === '1' || 
                                       item.ausente === 'true' ||
                                       item.ausente === 'x' ||
-                                      item.ausente === 'ausente');
+                                      item.ausente === 'ausente' ||
+                                      item.ausente === 'a' ||
+                                      item.ausente.toLowerCase().includes('ausente'));
                     
                     if (ausenteValue === 'si' && !esAusente) return false;
                     if (ausenteValue === 'no' && esAusente) return false;
@@ -732,15 +773,11 @@
         function changeSheetUrl() {
             const newUrl = prompt("Ingresa la nueva URL de Google Sheets:", GOOGLE_SHEETS_URL);
             if (newUrl) {
-                // Esta función solo funciona si editas el código
-                // En producción, deberías editar la constante GOOGLE_SHEETS_URL
                 alert("Para cambiar la URL permanentemente, edita la constante GOOGLE_SHEETS_URL en el código.\n\nURL ingresada: " + newUrl);
                 sheetUrlDisplay.textContent = newUrl;
                 
-                // Recargar con la nueva URL (solo para esta sesión)
+                // Recargar con la nueva URL
                 setTimeout(() => {
-                    alert("Recuerda que para un cambio permanente debes editar el código. Recargando datos con la nueva URL...");
-                    // Nota: Esto no cambiará realmente la URL sin recargar la página
                     location.reload();
                 }, 1000);
             }
