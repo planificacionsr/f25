@@ -47,15 +47,15 @@
             margin: 0 auto;
         }
         
-        .config-section {
+        .search-section {
             background-color: #f8f9fa;
             border-radius: 8px;
             padding: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             border-left: 4px solid #3498db;
         }
         
-        .config-title {
+        .search-title {
             font-size: 1.2rem;
             color: #2c3e50;
             margin-bottom: 15px;
@@ -63,28 +63,27 @@
             align-items: center;
         }
         
-        .config-title i {
+        .search-title i {
             margin-right: 10px;
             color: #3498db;
         }
         
-        .url-info {
-            background-color: #e8f4fc;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-left: 3px solid #3498db;
+        .search-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
         }
         
-        .url-info code {
-            background-color: #2c3e50;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 3px;
-            font-family: monospace;
-            word-break: break-all;
-            display: inline-block;
-            margin-top: 5px;
+        .search-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .search-group label {
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
         }
         
         .btn {
@@ -128,7 +127,7 @@
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
-            margin-top: 20px;
+            margin-top: 10px;
         }
         
         .filters-section {
@@ -322,7 +321,7 @@
                 width: 100%;
             }
             
-            .filters-section {
+            .filters-section, .search-container {
                 grid-template-columns: 1fr;
             }
         }
@@ -333,22 +332,30 @@
     <div class="container">
         <header>
             <h1><i class="fas fa-table"></i> Visualizador de Planilla</h1>
-            <p class="description">Visualiza y filtra datos de planillas desde Google Sheets. Filtra por zona, subzona, categoría, ausentes y más. Imprime los resultados filtrados.</p>
+            <p class="description">Visualiza y filtra datos de planillas. Filtra por zona, subzona, categoría, ausentes y más. Imprime los resultados filtrados.</p>
         </header>
         
-        <section class="config-section no-print">
-            <h2 class="config-title"><i class="fas fa-database"></i> Fuente de Datos</h2>
-            <div class="url-info">
-                <p><strong>Google Sheets conectado:</strong></p>
-                <code id="sheet-url-display">Cargando información...</code>
-                <p style="margin-top: 10px; font-size: 0.9rem;">Los datos se cargan automáticamente desde la URL configurada en el código.</p>
+        <section class="search-section no-print">
+            <h2 class="search-title"><i class="fas fa-search"></i> Búsqueda Rápida</h2>
+            <div class="search-container">
+                <div class="search-group">
+                    <label for="search-nombre"><i class="fas fa-user"></i> Buscar por Nombre</label>
+                    <input type="text" id="search-nombre" placeholder="Ingresa nombre completo o parcial...">
+                </div>
+                
+                <div class="search-group">
+                    <label for="search-dni"><i class="fas fa-id-card"></i> Buscar por DNI</label>
+                    <input type="text" id="search-dni" placeholder="Ingresa DNI completo o parcial...">
+                </div>
             </div>
-            <button id="load-data" class="btn btn-primary">
-                <i class="fas fa-sync-alt"></i> Actualizar Datos
-            </button>
-            <button id="change-sheet" class="btn btn-primary" style="margin-left: 10px;">
-                <i class="fas fa-exchange-alt"></i> Cambiar Hoja
-            </button>
+            <div class="button-group">
+                <button id="buscar-btn" class="btn btn-success">
+                    <i class="fas fa-search"></i> Buscar
+                </button>
+                <button id="limpiar-busqueda" class="btn btn-primary">
+                    <i class="fas fa-times"></i> Limpiar Búsqueda
+                </button>
+            </div>
         </section>
         
         <section class="filters-section no-print">
@@ -381,11 +388,6 @@
                     <option value="no">Solo Presentes</option>
                 </select>
             </div>
-            
-            <div class="filter-card">
-                <h3><i class="fas fa-filter"></i> Filtro por Nombre (I)</h3>
-                <input type="text" id="filter-nombre" placeholder="Buscar por nombre...">
-            </div>
         </section>
         
         <section class="data-section">
@@ -394,13 +396,13 @@
                     <span id="result-count">0</span> registros encontrados
                 </div>
                 <div class="button-group no-print">
-                    <button id="apply-filters" class="btn btn-success">
+                    <button id="aplicar-filtros" class="btn btn-success">
                         <i class="fas fa-filter"></i> Aplicar Filtros
                     </button>
-                    <button id="reset-filters" class="btn btn-primary">
+                    <button id="restablecer-filtros" class="btn btn-primary">
                         <i class="fas fa-redo"></i> Restablecer Filtros
                     </button>
-                    <button id="print-data" class="btn btn-print">
+                    <button id="imprimir" class="btn btn-print">
                         <i class="fas fa-print"></i> Imprimir Listado
                     </button>
                 </div>
@@ -408,7 +410,7 @@
             
             <div id="data-container">
                 <div class="loading">
-                    <i class="fas fa-spinner fa-spin"></i> Cargando datos desde Google Sheets...
+                    <i class="fas fa-spinner fa-spin"></i> Cargando datos...
                 </div>
             </div>
         </section>
@@ -420,10 +422,7 @@
         // ============================================
         
         // URL de tu Google Sheets (REEMPLAZAR CON TU URL)
-        const GOOGLE_SHEETS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiCM3t58H6ASsLOPRVaeCpE8OWbdK6Gyf62PA54QHG0ZniqGiY4jaRdPEgzs05-I37xcd_GLdwZTM7/pub?gid=1874394039&single=true&output=csv";
-        
-        // Nombre de la hoja (dejar vacío para usar la primera hoja)
-        const SHEET_NAME = ""; // Ejemplo: "Hoja1" o "Datos"
+        const GOOGLE_SHEETS_URL = "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/gviz/tq?tqx=out:csv&sheet=Class Data";
         
         // ============================================
         // NO EDITAR A PARTIR DE AQUÍ
@@ -432,22 +431,21 @@
         // Variables globales
         let allData = [];
         let filteredData = [];
-        let filterZona = document.getElementById('filter-zona');
-        let filterSubzona = document.getElementById('filter-subzona');
-        let filterCategoria = document.getElementById('filter-categoria');
-        let filterAusente = document.getElementById('filter-ausente');
-        let filterNombre = document.getElementById('filter-nombre');
-        let loadDataBtn = document.getElementById('load-data');
-        let applyFiltersBtn = document.getElementById('apply-filters');
-        let resetFiltersBtn = document.getElementById('reset-filters');
-        let printDataBtn = document.getElementById('print-data');
-        let dataContainer = document.getElementById('data-container');
-        let resultCount = document.getElementById('result-count');
-        let sheetUrlDisplay = document.getElementById('sheet-url-display');
-        let changeSheetBtn = document.getElementById('change-sheet');
         
-        // Mostrar URL actual
-        sheetUrlDisplay.textContent = GOOGLE_SHEETS_URL;
+        // Elementos del DOM
+        const searchNombre = document.getElementById('search-nombre');
+        const searchDNI = document.getElementById('search-dni');
+        const buscarBtn = document.getElementById('buscar-btn');
+        const limpiarBusquedaBtn = document.getElementById('limpiar-busqueda');
+        const filterZona = document.getElementById('filter-zona');
+        const filterSubzona = document.getElementById('filter-subzona');
+        const filterCategoria = document.getElementById('filter-categoria');
+        const filterAusente = document.getElementById('filter-ausente');
+        const aplicarFiltrosBtn = document.getElementById('aplicar-filtros');
+        const restablecerFiltrosBtn = document.getElementById('restablecer-filtros');
+        const imprimirBtn = document.getElementById('imprimir');
+        const dataContainer = document.getElementById('data-container');
+        const resultCount = document.getElementById('result-count');
         
         // Cargar datos desde Google Sheets
         async function loadDataFromSheet() {
@@ -457,15 +455,6 @@
             try {
                 // Usar la URL configurada
                 let exportUrl = GOOGLE_SHEETS_URL;
-                
-                // Si se especificó un nombre de hoja y la URL no lo tiene, intentar agregarlo
-                if (SHEET_NAME && !exportUrl.includes('sheet=')) {
-                    if (exportUrl.includes('?')) {
-                        exportUrl += `&sheet=${encodeURIComponent(SHEET_NAME)}`;
-                    } else {
-                        exportUrl += `?sheet=${encodeURIComponent(SHEET_NAME)}`;
-                    }
-                }
                 
                 // Cargar datos CSV
                 const response = await fetch(exportUrl);
@@ -486,108 +475,52 @@
                 
             } catch (error) {
                 console.error('Error cargando datos:', error);
-                showError(`Error al cargar datos: ${error.message}. Verifica que la hoja esté compartida públicamente y que la URL sea correcta.`);
+                showError(`Error al cargar datos: ${error.message}. Verifica que la hoja esté compartida públicamente.`);
             }
         }
         
-        // Parsear CSV a JSON - CORREGIDO: Comienza desde columna G
+        // Parsear CSV a JSON - CORREGIDO
         function parseCSV(csvText) {
-            const rows = csvText.split('\n')
-                .filter(row => row.trim() !== '') // Filtrar filas vacías
-                .map(row => {
-                    // Manejo de comillas y comas dentro de campos
-                    const result = [];
-                    let inQuotes = false;
-                    let currentField = '';
-                    
-                    for (let i = 0; i < row.length; i++) {
-                        const char = row[i];
-                        const nextChar = row[i + 1];
-                        
-                        if (char === '"' && !inQuotes) {
-                            inQuotes = true;
-                        } else if (char === '"' && inQuotes && nextChar === '"') {
-                            currentField += '"';
-                            i++; // Saltar la siguiente comilla
-                        } else if (char === '"' && inQuotes) {
-                            inQuotes = false;
-                        } else if (char === ',' && !inQuotes) {
-                            result.push(currentField.trim());
-                            currentField = '';
-                        } else {
-                            currentField += char;
-                        }
-                    }
-                    
-                    result.push(currentField.trim());
-                    return result;
-                });
+            // Dividir por líneas y limpiar
+            const lines = csvText.split('\n').filter(line => line.trim() !== '');
             
-            if (rows.length < 2) return [];
+            if (lines.length < 2) return [];
             
-            // Obtener encabezados
-            const headers = rows[0];
-            
-            // Crear objetos para cada fila de datos
             const data = [];
-            for (let i = 1; i < rows.length; i++) {
-                const row = rows[i];
+            
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i];
+                const columns = parseCSVLine(line);
                 
-                // Verificar que tenga suficientes columnas (al menos hasta la columna R)
-                if (row.length >= 17) { // Necesitamos hasta la columna R (índice 17 en array 0-based)
+                // Verificar que tenga suficientes columnas
+                if (columns.length >= 18) { // Necesitamos hasta la columna R (18 columnas en total, desde A hasta R)
                     const rowData = {};
                     
-                    // CORRECCIÓN: Comenzar desde columna G (índice 6 en array 0-based)
-                    // Columna G (índice 6) -> Zona
-                    // Columna H (índice 7) -> Subzona
-                    // Columna I (índice 8) -> Nombre
-                    // Columna J (índice 9) -> Domicilio
-                    // Columna K (índice 10) -> DNI
-                    // Columna L (índice 11) -> Edad
-                    // Columna M (índice 12) -> Categoría
-                    // Columna N (índice 13) -> Ausentes
-                    // Columnas O, P, Q, R (índices 14, 15, 16, 17) -> Tags
+                    // Mapear columnas según tu estructura:
+                    // Columna G = índice 6 (porque array empieza en 0)
+                    // Columna H = índice 7
+                    // Columna I = índice 8
+                    // Columna J = índice 9
+                    // Columna K = índice 10
+                    // Columna L = índice 11
+                    // Columna M = índice 12
+                    // Columna N = índice 13
+                    // Columnas O, P, Q, R = índices 14, 15, 16, 17
                     
-                    rowData.zona = row[6] || ''; // Columna G
-                    rowData.subzona = row[7] || ''; // Columna H
-                    rowData.nombre = row[8] || ''; // Columna I
-                    rowData.domicilio = row[9] || ''; // Columna J
-                    rowData.dni = row[10] || ''; // Columna K
-                    rowData.edad = row[11] || ''; // Columna L
-                    rowData.categoria = row[12] || ''; // Columna M
-                    rowData.ausente = (row[13] || '').toLowerCase(); // Columna N
+                    rowData.zona = columns[6] || ''; // Columna G
+                    rowData.subzona = columns[7] || ''; // Columna H
+                    rowData.nombre = columns[8] || ''; // Columna I
+                    rowData.domicilio = columns[9] || ''; // Columna J
+                    rowData.dni = columns[10] || ''; // Columna K
+                    rowData.edad = columns[11] || ''; // Columna L
+                    rowData.categoria = columns[12] || ''; // Columna M
+                    rowData.ausente = (columns[13] || '').toLowerCase(); // Columna N
                     
                     // Tags (columnas O, P, Q, R)
                     rowData.tags = [];
-                    for (let j = 14; j < Math.min(18, row.length); j++) {
-                        if (row[j] && row[j].trim() !== '') {
-                            rowData.tags.push(row[j].trim());
-                        }
-                    }
-                    
-                    data.push(rowData);
-                } else if (row.length >= 8) {
-                    // Versión alternativa si no hay suficientes columnas
-                    // Asumir que las primeras 6 columnas (A-F) están vacías o no existen
-                    const rowData = {};
-                    
-                    // Ajustar índices si hay menos columnas
-                    const startIndex = Math.max(0, row.length - 12); // Intentar obtener las últimas 12 columnas
-                    
-                    rowData.zona = row[startIndex] || ''; // Columna G
-                    rowData.subzona = row[startIndex + 1] || ''; // Columna H
-                    rowData.nombre = row[startIndex + 2] || ''; // Columna I
-                    rowData.domicilio = row[startIndex + 3] || ''; // Columna J
-                    rowData.dni = row[startIndex + 4] || ''; // Columna K
-                    rowData.edad = row[startIndex + 5] || ''; // Columna L
-                    rowData.categoria = row[startIndex + 6] || ''; // Columna M
-                    rowData.ausente = (row[startIndex + 7] || '').toLowerCase(); // Columna N
-                    
-                    // Tags (columnas O, P, Q, R)
-                    rowData.tags = [];
-                    for (let j = startIndex + 8; j < Math.min(startIndex + 12, row.length); j++) {
-                        if (row[j] && row[j].trim() !== '') {
-                            rowData.tags.push(row[j].trim());
+                    for (let j = 14; j < Math.min(18, columns.length); j++) {
+                        if (columns[j] && columns[j].trim() !== '') {
+                            rowData.tags.push(columns[j].trim());
                         }
                     }
                     
@@ -595,8 +528,36 @@
                 }
             }
             
-            console.log("Datos parseados:", data); // Para debugging
+            console.log("Datos parseados:", data);
             return data;
+        }
+        
+        // Función para parsear correctamente una línea CSV
+        function parseCSVLine(line) {
+            const result = [];
+            let current = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                
+                if (char === '"') {
+                    if (inQuotes && line[i + 1] === '"') {
+                        current += '"';
+                        i++; // Saltar la siguiente comilla
+                    } else {
+                        inQuotes = !inQuotes;
+                    }
+                } else if (char === ',' && !inQuotes) {
+                    result.push(current);
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            
+            result.push(current);
+            return result;
         }
         
         // Mostrar datos en tabla
@@ -698,15 +659,49 @@
             });
         }
         
+        // Aplicar búsqueda
+        function aplicarBusqueda() {
+            const nombreBusqueda = searchNombre.value.toLowerCase();
+            const dniBusqueda = searchDNI.value.toLowerCase();
+            
+            // Si ambos campos están vacíos, mostrar todos los datos
+            if (!nombreBusqueda && !dniBusqueda) {
+                renderData(allData);
+                updateResultCount(allData.length);
+                return;
+            }
+            
+            filteredData = allData.filter(item => {
+                // Búsqueda por nombre
+                if (nombreBusqueda && !item.nombre.toLowerCase().includes(nombreBusqueda)) {
+                    return false;
+                }
+                
+                // Búsqueda por DNI
+                if (dniBusqueda && !item.dni.toLowerCase().includes(dniBusqueda)) {
+                    return false;
+                }
+                
+                return true;
+            });
+            
+            renderData(filteredData);
+            updateResultCount(filteredData.length);
+        }
+        
         // Aplicar filtros
-        function applyFilters() {
+        function aplicarFiltros() {
             const zonaValue = filterZona.value;
             const subzonaValue = filterSubzona.value;
             const categoriaValue = filterCategoria.value;
             const ausenteValue = filterAusente.value;
-            const nombreValue = filterNombre.value.toLowerCase();
+            const nombreBusqueda = searchNombre.value.toLowerCase();
+            const dniBusqueda = searchDNI.value.toLowerCase();
             
-            filteredData = allData.filter(item => {
+            // Determinar sobre qué datos aplicar filtros
+            const datosBase = (nombreBusqueda || dniBusqueda) ? filteredData : allData;
+            
+            filteredData = datosBase.filter(item => {
                 // Filtro por zona
                 if (zonaValue && item.zona !== zonaValue) return false;
                 
@@ -715,9 +710,6 @@
                 
                 // Filtro por categoría
                 if (categoriaValue && item.categoria !== categoriaValue) return false;
-                
-                // Filtro por nombre (búsqueda parcial)
-                if (nombreValue && !item.nombre.toLowerCase().includes(nombreValue)) return false;
                 
                 // Filtro por ausente
                 if (ausenteValue) {
@@ -735,6 +727,12 @@
                     if (ausenteValue === 'no' && esAusente) return false;
                 }
                 
+                // Búsqueda por nombre (si se aplicó)
+                if (nombreBusqueda && !item.nombre.toLowerCase().includes(nombreBusqueda)) return false;
+                
+                // Búsqueda por DNI (si se aplicó)
+                if (dniBusqueda && !item.dni.toLowerCase().includes(dniBusqueda)) return false;
+                
                 return true;
             });
             
@@ -743,19 +741,27 @@
         }
         
         // Restablecer filtros
-        function resetFilters() {
+        function restablecerFiltros() {
             filterZona.value = '';
             filterSubzona.value = '';
             filterCategoria.value = '';
             filterAusente.value = '';
-            filterNombre.value = '';
+            searchNombre.value = '';
+            searchDNI.value = '';
             
             renderData(allData);
             updateResultCount(allData.length);
         }
         
+        // Limpiar búsqueda
+        function limpiarBusqueda() {
+            searchNombre.value = '';
+            searchDNI.value = '';
+            aplicarFiltros(); // Aplicar solo los filtros actuales
+        }
+        
         // Imprimir datos
-        function printData() {
+        function imprimirDatos() {
             window.print();
         }
         
@@ -769,31 +775,23 @@
             dataContainer.innerHTML = `<div class="error"><i class="fas fa-exclamation-circle"></i> ${message}</div>`;
         }
         
-        // Función para cambiar la URL de la hoja (solo para desarrollo)
-        function changeSheetUrl() {
-            const newUrl = prompt("Ingresa la nueva URL de Google Sheets:", GOOGLE_SHEETS_URL);
-            if (newUrl) {
-                alert("Para cambiar la URL permanentemente, edita la constante GOOGLE_SHEETS_URL en el código.\n\nURL ingresada: " + newUrl);
-                sheetUrlDisplay.textContent = newUrl;
-                
-                // Recargar con la nueva URL
-                setTimeout(() => {
-                    location.reload();
-                }, 1000);
-            }
-        }
-        
         // Event Listeners
-        loadDataBtn.addEventListener('click', loadDataFromSheet);
-        applyFiltersBtn.addEventListener('click', applyFilters);
-        resetFiltersBtn.addEventListener('click', resetFilters);
-        printDataBtn.addEventListener('click', printData);
-        changeSheetBtn.addEventListener('click', changeSheetUrl);
+        buscarBtn.addEventListener('click', aplicarBusqueda);
+        limpiarBusquedaBtn.addEventListener('click', limpiarBusqueda);
+        aplicarFiltrosBtn.addEventListener('click', aplicarFiltros);
+        restablecerFiltrosBtn.addEventListener('click', restablecerFiltros);
+        imprimirBtn.addEventListener('click', imprimirDatos);
         
-        // Permitir aplicar filtros con Enter en el campo de nombre
-        filterNombre.addEventListener('keyup', (event) => {
+        // Permitir aplicar búsqueda con Enter
+        searchNombre.addEventListener('keyup', (event) => {
             if (event.key === 'Enter') {
-                applyFilters();
+                aplicarBusqueda();
+            }
+        });
+        
+        searchDNI.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                aplicarBusqueda();
             }
         });
         
