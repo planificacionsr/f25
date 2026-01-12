@@ -13,9 +13,8 @@
         }
         
         body {
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             padding: 20px;
         }
         
@@ -23,56 +22,77 @@
             max-width: 1600px;
             margin: 0 auto;
             background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         header {
             text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 1px solid #eaeaea;
-            padding-bottom: 20px;
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 3px solid #667eea;
         }
         
         h1 {
-            color: #2c3e50;
-            margin-bottom: 10px;
+            color: #667eea;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        h1 i {
+            margin-right: 15px;
+            color: #764ba2;
         }
         
         .description {
-            color: #7f8c8d;
+            color: #6c757d;
             font-size: 1.1rem;
             max-width: 800px;
             margin: 0 auto;
         }
         
         .search-section {
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-left: 4px solid #3498db;
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 2px solid #667eea30;
+            backdrop-filter: blur(10px);
         }
         
         .search-title {
-            font-size: 1.2rem;
-            color: #2c3e50;
-            margin-bottom: 15px;
+            font-size: 1.3rem;
+            color: #667eea;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
+            font-weight: 600;
         }
         
         .search-title i {
-            margin-right: 10px;
-            color: #3498db;
+            margin-right: 12px;
+            color: #764ba2;
         }
         
         .search-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 15px;
-            margin-bottom: 15px;
+            gap: 20px;
+            margin-bottom: 20px;
         }
         
         .search-group {
@@ -81,115 +101,146 @@
         }
         
         .search-group label {
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: 600;
-            color: #2c3e50;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-group label i {
+            margin-right: 8px;
+            color: #667eea;
         }
         
         .btn {
-            padding: 12px 25px;
+            padding: 14px 28px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 1rem;
             font-weight: 600;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
         }
         
         .btn-primary {
-            background-color: #3498db;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-        }
-        
-        .btn-primary:hover {
-            background-color: #2980b9;
         }
         
         .btn-success {
-            background-color: #2ecc71;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
             color: white;
-        }
-        
-        .btn-success:hover {
-            background-color: #27ae60;
         }
         
         .btn-print {
-            background-color: #9b59b6;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             color: white;
-        }
-        
-        .btn-print:hover {
-            background-color: #8e44ad;
         }
         
         .button-group {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             flex-wrap: wrap;
-            margin-top: 10px;
+            margin-top: 15px;
         }
         
         .filters-section {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
         }
         
         .filter-card {
-            background-color: white;
-            border-radius: 8px;
-            padding: 15px;
-            border: 1px solid #eaeaea;
-            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.03);
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .filter-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.15);
+            transform: translateY(-2px);
         }
         
         .filter-card h3 {
-            font-size: 1rem;
-            color: #3498db;
-            margin-bottom: 10px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #f0f0f0;
+            font-size: 1.05rem;
+            color: #667eea;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         select, input[type="text"] {
             width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 12px 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
             font-size: 1rem;
-            transition: border 0.3s;
+            transition: all 0.3s ease;
+            background-color: #f8f9fa;
         }
         
         select:focus, input[type="text"]:focus {
-            border-color: #3498db;
+            border-color: #667eea;
             outline: none;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
         
         .data-section {
-            margin-top: 30px;
+            margin-top: 35px;
         }
         
         .data-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-radius: 12px;
         }
         
         .results-info {
-            font-weight: 600;
-            color: #2c3e50;
+            font-weight: 700;
+            color: #2d3748;
+            font-size: 1.2rem;
+        }
+        
+        .results-info span {
+            color: #667eea;
+            font-size: 1.5rem;
         }
         
         .table-container {
             overflow-x: auto;
-            border-radius: 8px;
-            border: 1px solid #eaeaea;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
             margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
         
         table {
@@ -199,95 +250,97 @@
         }
         
         thead {
-            background-color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
         }
         
         th {
-            padding: 15px;
+            padding: 16px;
             text-align: left;
             font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         tbody tr {
-            border-bottom: 1px solid #eaeaea;
-            transition: background-color 0.2s;
+            border-bottom: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
         }
         
         tbody tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: #f8f9fa;
         }
         
         tbody tr:hover {
-            background-color: #f1f8ff;
-        }
-        
-        /* Estilo para filas con ausente */
-        tbody tr.ausente {
-            background-color: #2c3e50 !important;
-            color: white;
-        }
-        
-        tbody tr.ausente:hover {
-            background-color: #34495e !important;
-        }
-        
-        tbody tr.ausente .tag {
-            background-color: #4a6572;
-            color: #e0e0e0;
+            background-color: #667eea15;
+            transform: scale(1.01);
         }
         
         td {
-            padding: 12px 15px;
+            padding: 14px 16px;
+            color: #2d3748;
         }
         
         .tag {
             display: inline-block;
-            background-color: #e1f5fe;
-            color: #0288d1;
-            padding: 4px 10px;
+            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+            color: #667eea;
+            padding: 5px 12px;
             border-radius: 20px;
             font-size: 0.85rem;
-            margin: 2px;
-        }
-        
-        .ausente-badge {
-            display: inline-block;
-            background-color: #e74c3c;
-            color: white;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: bold;
+            margin: 3px;
+            font-weight: 500;
+            border: 1px solid #667eea40;
         }
         
         .no-data {
             text-align: center;
-            padding: 40px;
-            color: #7f8c8d;
+            padding: 60px;
+            color: #6c757d;
             font-style: italic;
+            font-size: 1.2rem;
+        }
+        
+        .no-data i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #667eea;
+            display: block;
         }
         
         .loading {
             text-align: center;
-            padding: 30px;
-            color: #3498db;
+            padding: 60px;
+            color: #667eea;
             font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        .loading i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
         }
         
         .error {
             text-align: center;
-            padding: 30px;
-            color: #e74c3c;
+            padding: 40px;
+            color: #e53e3e;
             font-weight: 600;
-            background-color: #ffeaea;
-            border-radius: 8px;
+            background-color: #fff5f5;
+            border-radius: 12px;
             margin-top: 20px;
+            border: 2px solid #fc8181;
         }
         
         @media print {
             .no-print {
                 display: none !important;
+            }
+            
+            body {
+                background: white;
             }
             
             .container {
@@ -296,33 +349,35 @@
             
             .table-container {
                 overflow: visible;
-                border: none;
+                border: 1px solid #000;
             }
             
             tbody tr {
                 page-break-inside: avoid;
             }
-            
-            /* Para impresión, mantener legibilidad de filas ausentes */
-            tbody tr.ausente {
-                background-color: #f0f0f0 !important;
-                color: #000 !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
         }
         
         @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
             .button-group {
                 flex-direction: column;
             }
             
             .btn {
                 width: 100%;
+                justify-content: center;
             }
             
             .filters-section, .search-container {
                 grid-template-columns: 1fr;
+            }
+            
+            .data-header {
+                flex-direction: column;
+                align-items: stretch;
             }
         }
     </style>
@@ -332,7 +387,7 @@
     <div class="container">
         <header>
             <h1><i class="fas fa-table"></i> Visualizador de Planilla</h1>
-            <p class="description">Visualiza y filtra datos de planillas. Filtra por zona, subzona, categoría, ausentes y más. Imprime los resultados filtrados.</p>
+            <p class="description">Visualiza y filtra datos de planillas. Filtra por zona, subzona, categoría y más. Imprime los resultados filtrados.</p>
         </header>
         
         <section class="search-section no-print">
@@ -344,8 +399,8 @@
                 </div>
                 
                 <div class="search-group">
-                    <label for="search-dni"><i class="fas fa-id-card"></i> Buscar por DNI</label>
-                    <input type="text" id="search-dni" placeholder="Ingresa DNI completo o parcial...">
+                    <label for="search-dni"><i class="fas fa-id-card"></i> Buscar por Documento</label>
+                    <input type="text" id="search-dni" placeholder="Ingresa documento completo o parcial...">
                 </div>
             </div>
             <div class="button-group">
@@ -360,32 +415,23 @@
         
         <section class="filters-section no-print">
             <div class="filter-card">
-                <h3><i class="fas fa-filter"></i> Filtro por Zona (G)</h3>
+                <h3><i class="fas fa-map-marker-alt"></i> Filtro por Zona</h3>
                 <select id="filter-zona">
                     <option value="">Todas las zonas</option>
                 </select>
             </div>
             
             <div class="filter-card">
-                <h3><i class="fas fa-filter"></i> Filtro por Subzona (H)</h3>
+                <h3><i class="fas fa-map"></i> Filtro por Subzona</h3>
                 <select id="filter-subzona">
                     <option value="">Todas las subzonas</option>
                 </select>
             </div>
             
             <div class="filter-card">
-                <h3><i class="fas fa-filter"></i> Filtro por Categoría (M)</h3>
+                <h3><i class="fas fa-tags"></i> Filtro por Categoría</h3>
                 <select id="filter-categoria">
                     <option value="">Todas las categorías</option>
-                </select>
-            </div>
-            
-            <div class="filter-card">
-                <h3><i class="fas fa-filter"></i> Filtro por Ausentes (N)</h3>
-                <select id="filter-ausente">
-                    <option value="">Todos</option>
-                    <option value="si">Solo Ausentes</option>
-                    <option value="no">Solo Presentes</option>
                 </select>
             </div>
         </section>
@@ -410,7 +456,8 @@
             
             <div id="data-container">
                 <div class="loading">
-                    <i class="fas fa-spinner fa-spin"></i> Cargando datos...
+                    <i class="fas fa-spinner fa-spin"></i>
+                    Cargando datos...
                 </div>
             </div>
         </section>
@@ -440,7 +487,6 @@
         const filterZona = document.getElementById('filter-zona');
         const filterSubzona = document.getElementById('filter-subzona');
         const filterCategoria = document.getElementById('filter-categoria');
-        const filterAusente = document.getElementById('filter-ausente');
         const aplicarFiltrosBtn = document.getElementById('aplicar-filtros');
         const restablecerFiltrosBtn = document.getElementById('restablecer-filtros');
         const imprimirBtn = document.getElementById('imprimir');
@@ -449,28 +495,22 @@
         
         // Cargar datos desde Google Sheets
         async function loadDataFromSheet() {
-            // Mostrar estado de carga
-            dataContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Cargando datos desde Google Sheets...</div>';
+            dataContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i>Cargando datos desde Google Sheets...</div>';
             
             try {
-                // Usar la URL configurada
                 let exportUrl = GOOGLE_SHEETS_URL;
                 
-                // Cargar datos CSV
                 const response = await fetch(exportUrl);
                 if (!response.ok) {
                     throw new Error(`Error HTTP: ${response.status}`);
                 }
                 const csvText = await response.text();
                 
-                // Parsear CSV a JSON
                 allData = parseCSV(csvText);
                 
-                // Mostrar datos
                 renderData(allData);
                 populateFilterOptions(allData);
                 
-                // Actualizar contador
                 updateResultCount(allData.length);
                 
             } catch (error) {
@@ -479,9 +519,8 @@
             }
         }
         
-        // Parsear CSV a JSON - CORREGIDO
+        // Parsear CSV a JSON con nueva estructura de columnas
         function parseCSV(csvText) {
-            // Dividir por líneas y limpiar
             const lines = csvText.split('\n').filter(line => line.trim() !== '');
             
             if (lines.length < 2) return [];
@@ -492,33 +531,31 @@
                 const line = lines[i];
                 const columns = parseCSVLine(line);
                 
-                // Verificar que tenga suficientes columnas
-                if (columns.length >= 18) { // Necesitamos hasta la columna R (18 columnas en total, desde A hasta R)
+                // Verificar que tenga suficientes columnas (al menos hasta G para categoría)
+                if (columns.length >= 7) {
                     const rowData = {};
                     
-                    // Mapear columnas según tu estructura:
-                    // Columna G = índice 6 (porque array empieza en 0)
-                    // Columna H = índice 7
-                    // Columna I = índice 8
-                    // Columna J = índice 9
-                    // Columna K = índice 10
-                    // Columna L = índice 11
-                    // Columna M = índice 12
-                    // Columna N = índice 13
-                    // Columnas O, P, Q, R = índices 14, 15, 16, 17
+                    // Nueva estructura de columnas:
+                    // A (0) = ZONA
+                    // B (1) = SUBZONA
+                    // C (2) = NOMBRE
+                    // D (3) = DOMICILIO
+                    // E (4) = DOC (documento)
+                    // F (5) = EDAD
+                    // G (6) = CATEGORIA
+                    // H, I, J, K (7-10) = TAGS
                     
-                    rowData.zona = columns[6] || ''; // Columna G
-                    rowData.subzona = columns[7] || ''; // Columna H
-                    rowData.nombre = columns[8] || ''; // Columna I
-                    rowData.domicilio = columns[9] || ''; // Columna J
-                    rowData.dni = columns[10] || ''; // Columna K
-                    rowData.edad = columns[11] || ''; // Columna L
-                    rowData.categoria = columns[12] || ''; // Columna M
-                    rowData.ausente = (columns[13] || '').toLowerCase(); // Columna N
+                    rowData.zona = columns[0] || '';
+                    rowData.subzona = columns[1] || '';
+                    rowData.nombre = columns[2] || '';
+                    rowData.domicilio = columns[3] || '';
+                    rowData.doc = columns[4] || '';
+                    rowData.edad = columns[5] || '';
+                    rowData.categoria = columns[6] || '';
                     
-                    // Tags (columnas O, P, Q, R)
+                    // Tags (columnas H, I, J, K)
                     rowData.tags = [];
-                    for (let j = 14; j < Math.min(18, columns.length); j++) {
+                    for (let j = 7; j < Math.min(11, columns.length); j++) {
                         if (columns[j] && columns[j].trim() !== '') {
                             rowData.tags.push(columns[j].trim());
                         }
@@ -544,7 +581,7 @@
                 if (char === '"') {
                     if (inQuotes && line[i + 1] === '"') {
                         current += '"';
-                        i++; // Saltar la siguiente comilla
+                        i++;
                     } else {
                         inQuotes = !inQuotes;
                     }
@@ -563,7 +600,7 @@
         // Mostrar datos en tabla
         function renderData(data) {
             if (!data || data.length === 0) {
-                dataContainer.innerHTML = '<div class="no-data"><i class="fas fa-exclamation-circle"></i> No hay datos para mostrar</div>';
+                dataContainer.innerHTML = '<div class="no-data"><i class="fas fa-exclamation-circle"></i>No hay datos para mostrar</div>';
                 return;
             }
             
@@ -576,10 +613,9 @@
                                 <th>Subzona</th>
                                 <th>Nombre</th>
                                 <th>Domicilio</th>
-                                <th>DNI</th>
+                                <th>Documento</th>
                                 <th>Edad</th>
                                 <th>Categoría</th>
-                                <th>Ausente</th>
                                 <th>Tags</th>
                             </tr>
                         </thead>
@@ -587,30 +623,15 @@
             `;
             
             data.forEach(item => {
-                // Determinar si la fila es de un ausente
-                const esAusente = item.ausente && 
-                                 (item.ausente === 'si' || 
-                                  item.ausente === 'sí' || 
-                                  item.ausente === '1' || 
-                                  item.ausente === 'true' ||
-                                  item.ausente === 'x' ||
-                                  item.ausente === 'ausente' ||
-                                  item.ausente === 'a' ||
-                                  item.ausente.toLowerCase().includes('ausente'));
-                
-                const ausenteClass = esAusente ? 'ausente' : '';
-                const ausenteDisplay = esAusente ? '<span class="ausente-badge">AUSENTE</span>' : '';
-                
                 tableHTML += `
-                    <tr class="${ausenteClass}">
+                    <tr>
                         <td>${escapeHtml(item.zona)}</td>
                         <td>${escapeHtml(item.subzona)}</td>
                         <td>${escapeHtml(item.nombre)}</td>
                         <td>${escapeHtml(item.domicilio)}</td>
-                        <td>${escapeHtml(item.dni)}</td>
+                        <td>${escapeHtml(item.doc)}</td>
                         <td>${escapeHtml(item.edad)}</td>
                         <td>${escapeHtml(item.categoria)}</td>
-                        <td>${ausenteDisplay}</td>
                         <td>${item.tags.map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join(' ')}</td>
                     </tr>
                 `;
@@ -635,17 +656,14 @@
         
         // Llenar opciones de filtro
         function populateFilterOptions(data) {
-            // Limpiar opciones actuales
             filterZona.innerHTML = '<option value="">Todas las zonas</option>';
             filterSubzona.innerHTML = '<option value="">Todas las subzonas</option>';
             filterCategoria.innerHTML = '<option value="">Todas las categorías</option>';
             
-            // Obtener valores únicos para cada filtro
             const zonas = [...new Set(data.map(item => item.zona).filter(Boolean))].sort();
             const subzonas = [...new Set(data.map(item => item.subzona).filter(Boolean))].sort();
             const categorias = [...new Set(data.map(item => item.categoria).filter(Boolean))].sort();
             
-            // Agregar opciones a los filtros
             zonas.forEach(zona => {
                 filterZona.innerHTML += `<option value="${escapeHtml(zona)}">${escapeHtml(zona)}</option>`;
             });
@@ -664,7 +682,6 @@
             const nombreBusqueda = searchNombre.value.toLowerCase();
             const dniBusqueda = searchDNI.value.toLowerCase();
             
-            // Si ambos campos están vacíos, mostrar todos los datos
             if (!nombreBusqueda && !dniBusqueda) {
                 renderData(allData);
                 updateResultCount(allData.length);
@@ -672,13 +689,11 @@
             }
             
             filteredData = allData.filter(item => {
-                // Búsqueda por nombre
                 if (nombreBusqueda && !item.nombre.toLowerCase().includes(nombreBusqueda)) {
                     return false;
                 }
                 
-                // Búsqueda por DNI
-                if (dniBusqueda && !item.dni.toLowerCase().includes(dniBusqueda)) {
+                if (dniBusqueda && !item.doc.toLowerCase().includes(dniBusqueda)) {
                     return false;
                 }
                 
@@ -694,44 +709,17 @@
             const zonaValue = filterZona.value;
             const subzonaValue = filterSubzona.value;
             const categoriaValue = filterCategoria.value;
-            const ausenteValue = filterAusente.value;
             const nombreBusqueda = searchNombre.value.toLowerCase();
             const dniBusqueda = searchDNI.value.toLowerCase();
             
-            // Determinar sobre qué datos aplicar filtros
             const datosBase = (nombreBusqueda || dniBusqueda) ? filteredData : allData;
             
             filteredData = datosBase.filter(item => {
-                // Filtro por zona
                 if (zonaValue && item.zona !== zonaValue) return false;
-                
-                // Filtro por subzona
                 if (subzonaValue && item.subzona !== subzonaValue) return false;
-                
-                // Filtro por categoría
                 if (categoriaValue && item.categoria !== categoriaValue) return false;
-                
-                // Filtro por ausente
-                if (ausenteValue) {
-                    const esAusente = item.ausente && 
-                                     (item.ausente === 'si' || 
-                                      item.ausente === 'sí' || 
-                                      item.ausente === '1' || 
-                                      item.ausente === 'true' ||
-                                      item.ausente === 'x' ||
-                                      item.ausente === 'ausente' ||
-                                      item.ausente === 'a' ||
-                                      item.ausente.toLowerCase().includes('ausente'));
-                    
-                    if (ausenteValue === 'si' && !esAusente) return false;
-                    if (ausenteValue === 'no' && esAusente) return false;
-                }
-                
-                // Búsqueda por nombre (si se aplicó)
                 if (nombreBusqueda && !item.nombre.toLowerCase().includes(nombreBusqueda)) return false;
-                
-                // Búsqueda por DNI (si se aplicó)
-                if (dniBusqueda && !item.dni.toLowerCase().includes(dniBusqueda)) return false;
+                if (dniBusqueda && !item.doc.toLowerCase().includes(dniBusqueda)) return false;
                 
                 return true;
             });
@@ -745,7 +733,6 @@
             filterZona.value = '';
             filterSubzona.value = '';
             filterCategoria.value = '';
-            filterAusente.value = '';
             searchNombre.value = '';
             searchDNI.value = '';
             
@@ -757,7 +744,7 @@
         function limpiarBusqueda() {
             searchNombre.value = '';
             searchDNI.value = '';
-            aplicarFiltros(); // Aplicar solo los filtros actuales
+            aplicarFiltros();
         }
         
         // Imprimir datos
@@ -782,7 +769,6 @@
         restablecerFiltrosBtn.addEventListener('click', restablecerFiltros);
         imprimirBtn.addEventListener('click', imprimirDatos);
         
-        // Permitir aplicar búsqueda con Enter
         searchNombre.addEventListener('keyup', (event) => {
             if (event.key === 'Enter') {
                 aplicarBusqueda();
